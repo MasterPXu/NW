@@ -16,7 +16,10 @@ import org.omg.CORBA.LongHolder;
 public class GetNowAndTomorrowUnixStamp {
 	public long todayTimestamp;
 	public long tomorrowTimestamp;
-		
+	
+	public long thisHour;
+	public long nextHour;
+	
 	public GetNowAndTomorrowUnixStamp() {
 		//当前时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -36,5 +39,20 @@ public class GetNowAndTomorrowUnixStamp {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void get() {
+		
+	}
+	
+	public void setNowAndNextHourUnixStamp() {
+		//当前时间
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.MINUTE, 00);
+		calendar.set(Calendar.SECOND, 00);
+		this.thisHour = Calendar2UnixStamp.calendar2UnixTimeStamp(calendar)+3600;
+		
+		this.nextHour = thisHour+3600;
 	}
 }

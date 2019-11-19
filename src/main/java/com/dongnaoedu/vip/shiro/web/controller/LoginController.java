@@ -6,12 +6,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dongnaoedu.vip.shiro.annotation.RefreshCSRFToken;
+
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class LoginController {
 
     @RequestMapping(value = "/login")
+    @RefreshCSRFToken
     public String showLoginForm(HttpServletRequest req, Model model) {
         String exceptionClassName = (String) req.getAttribute("shiroLoginFailure");
         String error = null;

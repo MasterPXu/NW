@@ -1,9 +1,16 @@
 package com.dongnaoedu.vip.shiro.web.controller;
 
+import com.dongnaoedu.vip.shiro.entity.ShowTable;
 import com.dongnaoedu.vip.shiro.entity.User;
 import com.dongnaoedu.vip.shiro.service.OrganizationService;
 import com.dongnaoedu.vip.shiro.service.RoleService;
 import com.dongnaoedu.vip.shiro.service.UserService;
+
+import net.sf.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +35,12 @@ public class UserController {
     @RequiresPermissions("user:view")
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
+    	List<User> results = userService.findAllNew();
+    	JSONArray json = new JSONArray();
+	 	if(results != null) {
+		 	json = JSONArray.fromObject(results);  
+	 	}
+        model.addAttribute("jsons", json);
         model.addAttribute("userList", userService.findAll());
         return "user/list";
     }

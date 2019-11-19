@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.dongnaoedu.vip.shiro.dao.ResultDao;
 import com.dongnaoedu.vip.shiro.entity.Result;
 import com.dongnaoedu.vip.shiro.entity.ResultShow;
+import com.dongnaoedu.vip.shiro.entity.ShowTable;
 import com.dongnaoedu.vip.shiro.entity.TestInfo;
 
 @Service
@@ -48,7 +49,66 @@ public class ResultServiceImpl implements ResultService {
 
 	@Override
 	public List<TestInfo> queryTaskInfo(long comps) {
-		// TODO Auto-generated method stub
 		return resultDao.queryTaskInfo(comps);
+	}
+
+	@Override
+	public List<ShowTable> queryByTimeStamp(long time,long comps) {
+		return resultDao.queryByTimeStamp(time,comps);
+	}
+
+	@Override
+	public List<ResultShow> queryAllOutofTimeResultBelong(long comps) {
+		return resultDao.queryAllOutofTimeResultBelong(comps);
+	}
+
+	@Override
+	public List<ResultShow> queryAllBelong(long comps) {
+		return resultDao.queryAllBelong(comps);
+	}
+
+	@Override
+	public List<ResultShow> managerQueryAllBelong() {
+		return resultDao.managerQueryAllBelong();
+	}
+
+	@Override
+	public List<ResultShow> managerQueryAllAbsent() {
+		return resultDao.managerQueryAllAbsent();
+	}
+
+	@Override
+	public List<ResultShow> queryBelongByUID(Long id) {
+		return resultDao.queryBelongByUID(id);
+	}
+
+	@Override
+	public List<ShowTable> queryByTimeStampPersonal(long time, long uid) {
+		return resultDao.queryByTimeStampPersonal(time,uid);
+	}
+
+	@Override
+	public List<ShowTable> queryAllByTimeStamp(long queryDateTime) {
+		return resultDao.queryAllByTimeStamp(queryDateTime);
+	}
+
+	@Override
+	public List<ShowTable> queryByPersonal(Long id) {
+		return resultDao.queryByPersonal(id);
+	}
+
+	@Override
+	public List<ShowTable> queryAll() {
+		return resultDao.queryAll();
+	}
+
+	@Override
+	public List<ShowTable> query(Long organizationId) {
+		return resultDao.query(organizationId);
+	}
+
+	@Override
+	public List<ShowTable> queryByTimeStamp(long queryDateTime, Long organizationId, Long id) {
+		return resultDao.queryByTimeStamp(queryDateTime,organizationId,id);
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StopWatch.TaskInfo;
 
+import com.dongnaoedu.vip.shiro.entity.Phone;
 import com.dongnaoedu.vip.shiro.entity.TestInfo;
 
 @Repository
@@ -24,7 +25,7 @@ public class TestDaoImpl implements TestDao {
     
 	@Override
 	public TestInfo createTestInfo(TestInfo testInfo) {
-		 final String sql = "insert into sys_taskInfo(name,phoneNumber,timeStamp,comps,whoSet) values(?,?,?,?,?)";
+		 final String sql = "insert into sys_taskinfo(name,phoneNumber,timeStamp,setDateTimeStamp,dateStr,comps,whoSet) values(?,?,?,?,?,?,?)";
 
 	        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 	        jdbcTemplate.update(new PreparedStatementCreator() {
@@ -35,6 +36,8 @@ public class TestDaoImpl implements TestDao {
 	                psst.setString(count++, testInfo.getName());
 	                psst.setString(count++, testInfo.getPhoneNumber());
 	                psst.setLong(count++, testInfo.getTimeStamp());
+	                psst.setLong(count++, testInfo.getSetDateTimeStamp());
+	                psst.setString(count++, testInfo.getDateStr());
 	                psst.setLong(count++, testInfo.getComps());
 	                psst.setLong(count++, testInfo.getWhoSet());
 	                return psst;
@@ -45,9 +48,9 @@ public class TestDaoImpl implements TestDao {
 	}
 
 	@Override
-	public List<String> queryPhoneNumber(long currentTimestamp) {
+	public List<Phone> queryPhoneNumber(long currentTimestamp) {
 		String sql = "select phoneNumber from sys_taskinfo where timeStamp=?";
-        List<String> phoneNumbers = jdbcTemplate.query(sql, new BeanPropertyRowMapper(String.class), currentTimestamp);
+        List<Phone> phoneNumbers = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Phone.class), currentTimestamp);
         if (phoneNumbers.size() == 0) {
             return null;
         }
@@ -63,6 +66,7 @@ public class TestDaoImpl implements TestDao {
 
 	@Override
 	public List<TestInfo> queryTestInfoBelong(long compId) {
+
 		String sql = "select id,name,phoneNumber,timeStamp,comps,whoSet from sys_taskinfo where comps=?";
         List<TestInfo> testInfos = jdbcTemplate.query(sql, new BeanPropertyRowMapper(TestInfo.class), compId);
         if (testInfos.size() == 0) {

@@ -19,7 +19,12 @@
 
     <!-- 开启AOP监听 只对当前配置文件有效 -->
     <aop:aspectj-autoproxy expose-proxy="true"/>
-
+    
+	<aop:aspectj-autoproxy>
+		<aop:include name=""/>
+	</aop:aspectj-autoproxy>
+    
+    
 
     <!-- 数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">

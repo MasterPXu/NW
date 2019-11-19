@@ -67,11 +67,17 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAll() {
-        String sql = "select id, organization_id, username, password, salt, role_ids as roleIdsStr, locked from sys_user";
+        String sql = "select id, organization_id, username, password, salt, role_ids as roleIdsStr,locked from sys_user";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper(User.class));
     }
 
+    @Override
+    public List<User> findAllNew() {
+        String sql = "select id, organization_id, username, password, salt, role_ids as roleIdsStr,(SELECT description from sys_role WHERE id=SUBSTRING_INDEX(role_ids,',',1)) as role,(SELECT name from sys_organization WHERE id = a.organization_id) as organizationname, locked from sys_user as a";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper(User.class));
+    }
 
+    
     @Override
     public User findByUsername(String username) {
         String sql = "select id, organization_id, username, password, salt, role_ids as roleIdsStr, locked from sys_user where username=?";

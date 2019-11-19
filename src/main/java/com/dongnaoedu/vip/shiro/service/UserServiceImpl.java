@@ -101,4 +101,9 @@ public class UserServiceImpl implements UserService {
         return roleService.findPermissions(user.getRoleIds().toArray(new Long[0]));
     }
 
+	@Override
+	public List<User> findAllNew() {		
+		return userDao.findAllNew();
+	}
+
 }

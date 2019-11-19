@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
 <head>
-<script src="${pageContext.request.contextPath}/static/laydate/laydate.js"></script>
 <style>
 /* 	html{background-color:#E3E3E3; font-size:14px; color:#000; font-family:'微软雅黑'}
 	input{background-color:#E3E3E3; font-size:14px; color:#000; font-family:'微软雅黑'} */
@@ -13,7 +12,17 @@
 	.box a{padding-right:20px;}
 </style>
 
-<link rel="stylesheet"
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/ui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/ui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/ui/demo.css">
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/ui/jquery.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/ui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/ui/easyloader.js"></script>
+	<meta name="renderer" content="webkit">
+ 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/layui.css"  media="all">
+  	<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static/lib/weui.min.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static/css/jquery-weui.css">
@@ -37,6 +46,7 @@
 </head>
 <body>
 	GC夜巡平台
+	<!-- <input onclick="sendMSG()" type="button" value = "sendMSG" class="layui-btn layui-btn-primary" > -->
 </body>
 
 
@@ -54,6 +64,27 @@
           }
       }
       
+	function sendMSG(){
+		 $.ajax({
+             type : "GET",
+             url : "/GC/send/sendMsg",
+             data: "",
+             heads : {
+                 'content-type' : 'application/x-www-form-urlencoded'
+             },
+             success : function(data, textStatus) {
+   				console.log(data);
+             },
+             error : function(XMLHttpRequest, textStatus,
+                     errorThrown) {
+    			 console.log(XMLHttpRequest);
+       			 console.log(textStatus);
+       			console.log(errorThrown);
+             }
+         });
+	}
+	
+	
  	function showdate(){
  		var flag = true;
  		var a = document.getElementById("dataInfo").value;

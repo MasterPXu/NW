@@ -18,4 +18,6 @@ public interface UserDao {
 
     User findByUsername(String username);
 
+	List<User> findAllNew();
+
 }

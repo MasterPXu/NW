@@ -11,6 +11,7 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI.TabbedPaneLayout;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch.TaskInfo;
 
+import com.dongnaoedu.vip.shiro.entity.Phone;
 import com.dongnaoedu.vip.shiro.entity.TestInfo;
 
 
@@ -42,11 +43,13 @@ public interface TestService {
 	
 	void setTestInfo(TestInfo testInfo);
 	
-	List<String> getBeSetPhoneNumber(long queryTimeStamp);
+	List<Phone> getBeSetPhoneNumber(long queryTimeStamp);
 	
 	void deleteTestInfo(long testId);
 	
 	TestInfo findOne(long id);
 
 	void updateTaskInfo(TestInfo info);
+	
+	List<TestInfo> queryBelong2Comp(long compid);
 }

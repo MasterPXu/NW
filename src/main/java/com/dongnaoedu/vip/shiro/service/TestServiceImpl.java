@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch.TaskInfo;
 
 import com.dongnaoedu.vip.shiro.dao.TestDao;
+import com.dongnaoedu.vip.shiro.entity.Phone;
 import com.dongnaoedu.vip.shiro.entity.TestInfo;
 
 
@@ -25,8 +26,8 @@ public class TestServiceImpl implements TestService {
 	}
 
 	@Override
-	public List<String> getBeSetPhoneNumber(long queryTimeStamp) {
-		List<String> arrayList = testDao.queryPhoneNumber(queryTimeStamp);
+	public List<Phone> getBeSetPhoneNumber(long queryTimeStamp) {
+		List<Phone> arrayList = testDao.queryPhoneNumber(queryTimeStamp);
 		return arrayList;
 	}
 
@@ -43,6 +44,11 @@ public class TestServiceImpl implements TestService {
 	@Override
 	public void updateTaskInfo(TestInfo info) {
 		testDao.updateTaskInfo(info);
+	}
+
+	@Override
+	public List<TestInfo> queryBelong2Comp(long compid) {
+		return testDao.queryTestInfoBelong(compid);
 	}
 	
 

@@ -21,7 +21,11 @@ public class ResultShow implements Serializable {
 		return time;
 	}
 	public void setTime() {
-		this.time = df.format(replyTime*1000);
+		if(replyTime != 0) {
+			this.time = df.format(replyTime*1000);
+		}else {
+			this.time = "缺岗状态";
+		}		
 	}
 	public long getId() {
 		return id;

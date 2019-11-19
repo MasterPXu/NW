@@ -93,7 +93,8 @@
     </bean>
 
     <!-- 基于Form表单的身份验证过滤器 -->
-    <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+<!--     <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"> -->
+    <bean id="formAuthenticationFilter" class="com.dongnaoedu.vip.shiro.config.MyFormAuthenticationFilter">
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="rememberMe"/>
@@ -117,8 +118,8 @@
             <value>
                 /login = authc
                 /logout = logout
+                /static/images/** = anon
                 /authenticated = authc
-
                 /testRole=roles["admin","admin1"]
                 /testRole1=rolesRo["admin","admin1"]
 

@@ -7,19 +7,18 @@ import java.util.Date;
 public class TransferString2TimeStamp {
 	public static long transfer(String timeString) {
 		Date date = new Date(); 
-		DateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			date = sdFormat.parse(timeString);
-			System.out.println(date.toString()); 
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return date.getTime();
+		return date.getTime()/1000;
 	}
 	
-	public static void main(String[] args) {
-		String timeStr = "2010/05/04 12:34:23";
-		long a = transfer(timeStr)/1000;
-		System.out.println(a);
-	}
+//	public static void main(String[] args) {
+//		String timeStr = "2010/05/04 0:0:0";
+//		long a = transfer(timeStr)/1000;
+//		System.out.println(a);
+//	}
 }

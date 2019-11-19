@@ -15,59 +15,85 @@
  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css"  media="all">
+  		<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/static/lib/weui.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/static/css/jquery-weui.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/static/css/style.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/static/css/iconfont.css">
+
+<script
+	src="${pageContext.request.contextPath}/static/lib/jquery-2.1.4.js"></script>
+<script src="${pageContext.request.contextPath}/static/lib/fastclick.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/static/js/jquery.Spinner.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/jquery-weui.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/swiper.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/ui/jquery.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/ui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/ui/easyloader.js"></script>
 </head>
 <body>
-<%-- 	<div>
-		<table class="table">
-		    <thead>
-		        <tr>
-		        	<th>人员名称</th>
-		        	<th>所在公司</th>
-		            <th>手机号</th>
-		            <th>发送的验证码</th>
-		            <th>回复的验证码</th>
-		            <th>回复时间</th>
-		        </tr>
-		    </thead>
-		    <tbody>
-		        <c:forEach items="${results}" var="result">
-		            <tr>
-	    	            <td>${result.replyName}</td>
-		                <td>${result.compsName}</td>
-		                <td>${result.phoneNumber}</td>
-		                <td>${result.taskInfo}</td>
-		                <td>${result.taskResult}</td>
-		                <td>${result.time}</td> 
-		            </tr>
-		        </c:forEach>
-		    </tbody>
-		</table>
-	</div> --%>
-	
 	<div>
-<%-- 		<table class="layui-table" lay-data="${json}" lay-filter="test" id = "test">
-		  <thead>
-		    <tr>
-		      <th lay-data="{type:'checkbox'}">ID</th>
-		      <th lay-data="{field:'id', width:80, sort: true}">ID</th>
-		      <th lay-data="{field:'taskInfo', edit: 'text', minWidth: 150}">信息</th>
-		      <th lay-data="{field:'taskResult', width:80, edit: 'text'}">回传</th>
-		      <th lay-data="{field:'phoneNumber', edit: 'text', minWidth: 100}">电话</th>
-		      <th lay-data="{field:'replyName', edit: 'text', minWidth: 100}">人名</th>
-		      <th lay-data="{field:'compsName', sort: true, edit: 'text'}">公司名</th>
-		      <th lay-data="{field:'time', width:120, sort: true, edit: 'text'}">时间</th>
-		    </tr>
-		  </thead>
-/* 		      ,{field: 'taskResult', title: '回复', width: 90, sort: true, totalRow: true} */
-		</table> --%>
 		<table class="layui-table" lay-filter="test" id = "test">
 		</table>
-		<script type="text/html" id="barDemo">
-			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-		</script>
 	</div>
-
 </body>
+		<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-sm" lay-event="check">导出所有数据</a>
+			<a class="layui-btn layui-btn-sm" lay-event="checkout">导出缺岗人员数据</a>
+		</script>
+
+<script type="text/javascript">
+var laydate = layui.laydate;
+layui.use('laydate', function(){
+  var laydate = layui.laydate;
+  //常规用法
+  laydate.render({
+    elem: '#test1'
+  });
+  
+  //国际版
+  laydate.render({
+    elem: '#test1-1'
+    ,lang: 'en'
+  });
+  
+  //年选择器
+  laydate.render({
+    elem: '#test2'
+    ,type: 'year'
+  });
+  
+  //年月选择器
+  laydate.render({
+    elem: '#test3'
+    ,type: 'month'
+  });
+  
+  //时间选择器
+  laydate.render({
+    elem: '#test4'
+    ,type: 'time'
+  });
+  
+  //日期时间选择器
+  laydate.render({
+    elem: '#test5'
+    ,type: 'datetime'
+  });
+  
+  //日期范围
+  laydate.render({
+    elem: '#test6'
+    ,range: true
+  });
+});
+</script>
 
 <script src="${pageContext.request.contextPath}/static/layui/layui.js" charset="utf-8"></script>
 <script>
@@ -75,8 +101,8 @@
 		var table = layui.table;
 		table.render({
 		    elem: '#test'
-		    ,toolbar: '#toolbarDemo'
-		    ,title: '表'
+		    ,toolbar: '#barDemo' 
+		    ,title: '到岗信息表'
 		    ,height: 600
 		    ,page: true //开启分页
 		    //  ,toolbar: 'default' 开启工具栏，此处显示默认图标，可以自定义模板，详见文档
@@ -88,8 +114,8 @@
 		      ,{field: 'taskInfo', title: '信息', width:80, edit: 'text'}
 		      ,{field: 'taskResult', title: '回复', width: 90, sort: true, edit: 'text'}
 		      ,{field: 'compsName', title: '公司名', width:250, edit: 'text'} 
-		      ,{field: 'time', title: '时间', width: 200, edit: 'text'}
- 		      ,{fixed: 'right',title: '操作', width: 65, align:'center', toolbar: '#barDemo'} /**/
+		      ,{field: 'time', title: '时间', width: 200,sort: true,edit: 'text'}
+		      /*,{fixed: 'right',title: '操作', width: 65, align:'center', toolbar: '#barDemo'} */
 		    ]]
 		    ,data: ${json}
 	  });
@@ -109,27 +135,57 @@
 	      break;
 	      case 'update'://提交
 	        layer.msg('提交');
-/* 	        if(data.length === 0){
-	          layer.msg('请选择一行');
-	        } else if(data.length > 1){
-	          layer.msg('只能同时编辑一个');
-	        } else {
-	          layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
-	        } */
 	      break;
-	      case 'delete':
-	        if(data.length === 0){
-	          layer.msg('请选择一行');
-	        } else {
-	          layer.msg('删除');
-	        }
+	      case 'checkout':
+				$.ajax({
+		              type : "get",
+		              url : "/GC/show/exportAbs",
+		              data : "1",
+		              heads : {
+		                  'content-type' : 'application/x-www-form-urlencoded'
+		              },
+		              success : function(data, textStatus) {
+	            		   var result = data.exportAbs; /* */
+	            		   table.exportFile(obj.config.id, result, 'xls');
+		              },
+		              error : function(XMLHttpRequest, textStatus,
+		                      errorThrown) {
+		     			 console.log(XMLHttpRequest);
+		       			 console.log(textStatus);
+		       			console.log(errorThrown);
+		      			$("#submit").attr("disabled",false); 
+		                  alert("数据填写错误");
+		              }
+		          });
 	      break;
 	      case 'check':
-	    	  var result = ${results};
+				$.ajax({
+		              type : "get",
+		              url : "/GC/show/export",
+		              data : "1",
+		              heads : {
+		                  'content-type' : 'application/x-www-form-urlencoded'
+		              },
+		              success : function(data, textStatus) {
+	            		   var result = data.exports; /* */
+	            		   console.log(data);
+	            		   table.exportFile(obj.config.id, result, 'xls');
+		              },
+		              error : function(XMLHttpRequest, textStatus,
+		                      errorThrown) {
+		     			 console.log(XMLHttpRequest);
+		       			 console.log(textStatus);
+		       			console.log(errorThrown);
+		      			$("#submit").attr("disabled",false); 
+		                  alert("数据填写错误");
+		              }
+		          });
+/* 	    	  var result = ${json};
+		      table.exportFile(obj.config.id, result, 'xls');
 	    	  console.log(result);
-	    	  console.log("olddata----------------");
+ 	    	  console.log("olddata----------------");
 	          var oldData =  table.cache["test"];
-	          console.log(oldData);
+	          console.log(oldData); */
 	      break;
 	    };
 	  });
@@ -151,14 +207,5 @@
 	    }
 	  });
 	});
-</script>
-
-<script type="text/html" id="toolbarDemo">
-  <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
-    <button class="layui-btn layui-btn-sm" lay-event="update">提交</button>
-    <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
-    <button class="layui-btn layui-btn-sm" lay-event="check">查看</button>
-  </div>
 </script>
 </html>

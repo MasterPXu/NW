@@ -8,6 +8,8 @@ public class TestInfo  implements Serializable{
 	private String name;
 	private String phoneNumber;
 	private long timeStamp;
+	private long setDateTimeStamp;
+	private String dateStr;
 	private long comps;
 	private long whoSet;
 	
@@ -19,6 +21,7 @@ public class TestInfo  implements Serializable{
 	public void setTime() {
 		time = df.format(timeStamp*1000);
 	}
+	
 	public long getId() {
 		return id;
 	}
@@ -56,6 +59,18 @@ public class TestInfo  implements Serializable{
 	}
 	public void setWhoSet(long whoSet) {
 		this.whoSet = whoSet;
+	}
+	public long getSetDateTimeStamp() {
+		return setDateTimeStamp;
+	}
+	public void setSetDateTimeStamp(long setDateTimeStamp) {
+		this.setDateTimeStamp = setDateTimeStamp;
+	}
+	public String getDateStr() {
+		return dateStr;
+	}
+	public void setDateStr(String dateStr) {
+		this.dateStr = dateStr;
 	}
 		
 }

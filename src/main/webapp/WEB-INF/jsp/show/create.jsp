@@ -48,11 +48,12 @@
 		      </div>
 		    </div>
 			<div class="weui-tabbar wy-foot-menu">
-				<input type="button" id = "submit" value="提交" class="layui-btn layui-btn-primary" onclick="formSubmit()">
-				<input type="button" id = "submitAll" value="提交为长期巡检人员" class="layui-btn layui-btn-primary" onclick="formSubmitAll()">
+				<input type="button" id = "submit" value="提交（所选日期巡检人员）" class="layui-btn layui-btn-primary" onclick="formSubmit()">
+				<!-- <input type="button" id = "submitAll" value="提交为长期巡检人员（每天晚8点到早6点会对该人员进行推送）" class="layui-btn layui-btn-primary" onclick="formSubmitAll()"> -->
 				<input onclick="showdate()" type="button" value = "查看前一天数据(需选择具体日期)" class="layui-btn layui-btn-primary" >
+				
 			</div>
-		  </div>
+		  </div> 
 		</div> <!-- -->
 
 		<table class="layui-table" lay-filter="test" id = "test">
@@ -78,7 +79,7 @@
 		      {type: 'checkbox', fixed: 'left'}
 		      ,{field: 'name', title: '回复者姓名', width: 120, sort: true, edit: 'text'}
 		      ,{field: 'phoneNumber', title: '电话号', width:180, sort: true, edit: 'text'}
-		      ,{field: 'time', title: '巡检人员值班时间(例：19、23、24代表晚上8、11、12点 )', width:400, edit: 'text'}
+		      ,{field: 'dateStr', title: '巡检人员值班时间(例：19、22、23代表晚上8、10、11点 )', width:400, edit: 'text'}
 		      ,{title: '操作', width: 65, align:'center', toolbar: '#barDemo'} /**/
 		    ]]
 		    ,data: test
@@ -108,10 +109,10 @@
 	    	var a = document.getElementById("test1").value;
 	        var oldData =  table.cache["test"];
 	        console.log(oldData);
-	        console.log(a);
 	      break;
 	    };
 	  });
+	 
 	  //监听行工具事件
 	  table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
 	    var data = obj.data //获得当前行数据
@@ -120,10 +121,19 @@
 	      layer.msg('查看操作');
 	    } else if(layEvent === 'del'){
 	      layer.confirm('真的删除行么', function(index){
-/* 	        obj.del(); //删除对应行（tr）的DOM结构
-	        layer.close(index); */
-	        console.log(data);
-	        //向服务端发送删除指令
+	    	 obj.del(); //删除对应行（tr）的DOM结构
+	    	 layer.close(index);
+	    	 
+	    	 var oldData =  table.cache["test"];
+	    	 for(var i = 0 ;i<oldData.length;i++){
+	    		 if(oldData[i] == false)  
+	             {  
+ 	    			 oldData.splice(i,1);  
+                     i= i-1; /* */
+                     console.log(oldData);
+	             }  
+	    	 }
+	         table.reload('test',{data : oldData});
 	      });
 	    } else if(layEvent === 'edit'){
 	      layer.msg('编辑操作');
@@ -131,17 +141,18 @@
 	  });
 	});
 	
+	//查看前一天数据
 	function showdate(){			 
       var a = new Array();
-      a["data"] = 1;
+      var con = {}
+      con["date"] = document.getElementById("test1").value;
+      a = con;
       var json = JSON.stringify(a); 
+      console.log(json);
 		 $.ajax({
              type : "GET",
              url : "/GC/show/showQuery",
-/*              data : {
-                 json : json
-             }, */
-             data:'id=111&str=abc',
+             data: con,
 /* 	                    dataType : "JSON", */
              heads : {
                  'content-type' : 'application/x-www-form-urlencoded'
@@ -152,35 +163,28 @@
                 table.reload('test',{data : test});
    				console.log(data.result);
    				console.log(textStatus);
-            	 /*           	if (textStatus == "success") {
-             	   window.location.href = "${pageContext.request.contextPath}/test/${tableId}/success";
-                 } else {
-                     if (data.errorType == "test/error") {
-                         showAlertMsg("提示", "您填写的部分数据超出该条目的总分", "warning");
-                     }
-                 } */
              },
              error : function(XMLHttpRequest, textStatus,
                      errorThrown) {
     			 console.log(XMLHttpRequest);
        			 console.log(textStatus);
        			console.log(errorThrown);
- /*                 alert("您填写的部分数据超出该条目的总分,请刷新页面后继续评测，符合条件的数据已经记录，只需填写不符合条件的数据"); */
              }
          });
-	} /*    <button class="layui-btn layui-btn-sm" lay-event="update">提交</button>
-    <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
-    <button class="layui-btn layui-btn-sm" lay-event="check">查看</button>  */
+	} 
 </script>
+
 <script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container">
     <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+	<button class="layui-btn layui-btn-sm" lay-event="check">查看</button>
 </div>
 </script>
 
 <script type="text/javascript">
 function isPoneAvailable(str) {
-    var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+/*     var myreg=/^[1][3,4,5,7,8][0-9]{9}$/; */
+    var myreg=/^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/
     if (!myreg.test(str)) {
         return false;
     } else {
@@ -191,6 +195,87 @@ function isPoneAvailable(str) {
 	
 //提交表单数据
 function formSubmit(){
+	 var table = layui.table;
+	 var oldData =  table.cache["test"];
+ 	 var a = document.getElementById("test1").value;
+	 var b = a;
+	 var cons = new Array();		
+     var flag = true;
+	if(b == ''){
+		alert("请选择日期");
+		flag = false;
+	}
+	 for(var i = 0;i<oldData.length;i++){
+		 console.log(oldData[i].name == undefined);
+		if(oldData[i].name == "" || oldData[i].name == null || oldData[i].name == "undefined" || oldData[i].name == undefined || oldData[i].name == "null"){
+			flag = false;
+			alert("姓名不能为空");
+		}else{
+			if(isPoneAvailable(oldData[i].phoneNumber)){ 				
+				 var con = {};
+			     con["id"] = oldData[i].id;
+			     con["phone"] = oldData[i].phoneNumber;
+			     con["time"] = oldData[i].dateStr;
+			     con["comps"] = oldData[i].comps;
+			     con["name"] = oldData[i].name;
+			     con["timeStamp"] = oldData[i].timeStamp;
+			     con["date"] = b;
+				 cons[i] = con;
+			}else{
+				flag = false;
+				alert("在第" + (i+1) + "行，您输入的电话号码：" + oldData[i].phoneNumber + "有误，请输入正确的电话号码后重新提交。");
+			}
+		}
+			
+	 }
+  var json = JSON.stringify(cons);
+  console.log(json);	  
+  /*  */
+  if(flag){
+	  $("#submit").attr("disabled",true); 
+	 	$.messager.confirm('确认', '确定要提交所有的数据?', function(r) {
+			$("#submit").attr("disabled",false); 
+	      if (r) {
+				$.ajax({
+	              type : "post",
+	              url : "/GC/test/doSave",
+	              data : {
+	                  json : json
+	              },
+	              heads : {
+	                  'content-type' : 'application/x-www-form-urlencoded'
+	              },
+	              success : function(data, textStatus) {
+	            	  console.log(data == 1);
+	            	   if (data == 1) { 
+	            		alert("添加成功");
+	              	   	window.location.href = "${pageContext.request.contextPath}/show/show";
+	                  } else if(data == 2){
+	                	  alert("巡检人员值班时间设置出错，请严格按照格式对巡检时间进行设置，以“、”隔开  ");
+	                  } else if(data == 3){
+	                	  alert("请输入巡检时间！");
+	                  } else{
+	                      if (data.errorType == "test/error") {
+	                          showAlertMsg("提示", "您填写的部分数据超出该条目的总分", "warning");
+	                      }
+	                  }
+	              },
+	              error : function(XMLHttpRequest, textStatus,
+	                      errorThrown) {
+	     			 console.log(XMLHttpRequest);
+	       			 console.log(textStatus);
+	       			console.log(errorThrown);
+	      			$("#submit").attr("disabled",false); 
+	                  alert("数据填写错误");
+	              }
+	          });
+	      }
+	  });
+  }
+}
+
+//长期巡检人员
+function formSubmitAll(){
 	var score = new Array();
 	var itemId = new Array();
 	var totalScore = new Array();
@@ -241,8 +326,6 @@ function formSubmit(){
               },
               success : function(data, textStatus) {
             	   if (data == 1) { 
-/*                 	   showRightBottomMsg("系统提示", "提交成功！", 'slide',
-                             5000); */
               	   window.location.href = "${pageContext.request.contextPath}/show/showTask";
                   } else {
                       if (data.errorType == "test/error") {

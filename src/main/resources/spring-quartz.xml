@@ -15,69 +15,87 @@
             class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
         <property name="triggers">  
             <list>  
-                <ref bean="runSetPhone" />  <!--  -->
+             <!--    <ref bean="runSetPhone" />   -->
                 <ref bean="setCodesDo" />
-                <ref bean="triggerTestJob" />
+                <ref bean="triggerTestJob" /> <!-- -->
+                <ref bean="updateCodeDo" />
             </list>  
         </property>  
         <property name="autoStartup" value="true" />
         <property name="startupDelay" value="10"/>
     </bean>  
     
-    <!-- 定时器1: 更新电话信息 一天一次-->
+    <!-- 定时器1: 更新电话信息 一小时一次-->
     <!-- 定义执行的对象及对象中的方法 -->
     <bean id="setPhone" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
-        <property name="targetObject" ref="testJobComponent" />
+        <property name="targetObject" ref="timeTaskController" />
         <property name="targetMethod" value="setInfo" />
         <property name="concurrent" value="false" /> <!-- 指是否并行执行 -->
     </bean> <!--   -->
-    <!-- 定义触发器的时间 -->
+    <!-- 定义触发器1的时间 -->
     <bean id="runSetPhone" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
         <property name="jobDetail" ref="setPhone" />    
-        <property name="cronExpression" value="0 0 12 1/1 * ? *">
-          <!--   <value>${crmbi.cronExpression.syncHive2OracleJob}</value>   -->
+<!--         <property name="cronExpression" value="0 0 12 1/1 * ? *">
+        </property>   -->
+<!--         <property name="cronExpression" value="0 55 0/1 * * ? "> -->
+        <property name="cronExpression" value="0 59 0/1 * * ? ">
         </property>  
     </bean><!--   -->  
     
-    
-    <!-- 定时器2：测试quartz类的使用方法 发送短信 一小时一次-->
-    <!-- 定义调用的对象及对象中的方法 -->
-    <bean id="defTestJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="testJobComponent" />
-        <property name="targetMethod" value="execute" />
-        <property name="concurrent" value="false" /> <!-- 是否支持并发 -->
-    </bean>
-    <!-- 触发器：定义出发器执行的脚本的时间  -->
-    <bean id="triggerTestJob" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="defTestJob" />
-        <property name="cronExpression" value="0 0 0,1,2,3,4,5,6,22,23 * * ? ">
-          <!--  <value>${crmbi.cronExpression.testJob}</value>    -->      
-        </property>    
-    </bean>
-    
-     <!-- 定时器3：设置随机码 一小时一次 -->
+        
+     <!-- 定时器2：设置随机码 一小时一次 -->
     <bean id="setCode" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="testJobComponent" />
+        <property name="targetObject" ref="timeTaskController" />
         <property name="targetMethod" value="setParam" />
         <property name="concurrent" value="false" /> <!-- 是否支持并发 -->
     </bean>
-    <!-- 触发器：定义出发器执行的脚本的时间  -->
+    <!-- 触发器2：定义出发器执行的脚本的时间  -->
     <bean id="setCodesDo" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="setCode" />
-        <property name="cronExpression" value="58 58 0,1,2,3,4,5,21,22,23 * * ? "> 
+<!--         <property name="cronExpression" value="58 58 0,1,2,3,4,5,21,22,23 * * ? "> 
+        </property>  --> 
+        <!--  <property name="cronExpression" value="0 56 0/1 * * ? "> -->
+        <property name="cronExpression" value="30 58 0/1 * * ? ">
         </property>    
     </bean>
+       
+    <!-- 定时器3：测试quartz类的使用方法 发送短信 一小时一次-->
+    <!-- 定义调用的对象及对象中的方法 -->
+    <bean id="defTestJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="timeTaskController" />
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" /> <!-- 是否支持并发 -->
+    </bean>
+    <!-- 触发器3：定义出发器执行的脚本的时间  -->
+    <bean id="triggerTestJob" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="defTestJob" />
+<!--         <property name="cronExpression" value="0 0 0,1,2,3,4,5,6,22,23 * * ? "> 
+        </property>  -->
+        <property name="cronExpression" value="0 0 0/1 * * ? "> 
+        </property>
+       <!--  <property name="cronExpression" value="0 0/10 * * * ? "> 
+        </property>   -->  
+    </bean>
+    
     
     <!-- 定时器4：更新拉取回复 一小时一次-->
     <bean id="updateCode" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="testJobComponent" />
+        <property name="targetObject" ref="timeTaskController" />
         <property name="targetMethod" value="updateParam" />
         <property name="concurrent" value="false" /> <!-- 是否支持并发 -->
     </bean>
-    <!-- 触发器：定义出发器执行的脚本的时间  -->
+    <!-- 触发器4：定义出发器执行的脚本的时间  -->
     <bean id="updateCodeDo" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="setCode" />
-        <property name="cronExpression" value="10 0 0,1,2,3,4,5,21,22,23 * * ? "> 
-        </property>    
+        <property name="jobDetail" ref="updateCode" />
+<!--         <property name="cronExpression" value="10 0 0,1,2,3,4,5,21,22,23 * * ? "> 
+        </property>     -->
+        
+        <property name="cronExpression" value="5 17 0/1 * * ? "> 
+        </property>
+         <!--   <property name="cronExpression" value="5 0/11 * * * ? "> 
+        </property>    -->   
     </bean>
+    
+
+    
 </beans>

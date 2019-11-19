@@ -15,7 +15,8 @@ public class User implements Serializable {
     private String salt; //加密密码的盐
     private List<Long> roleIds; //拥有的角色列表
     private Boolean locked = Boolean.FALSE;
-
+    private String role;
+    private String organizationname;
     public User() {
     }
 
@@ -141,5 +142,20 @@ public class User implements Serializable {
                 ", roleIds=" + roleIds +
                 ", locked=" + locked +
                 '}';
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+    public String getOrganizationname() {
+        return organizationname;
+    }
+
+    public void setOrganizationname(String organizationname) {
+        this.organizationname = organizationname;
     }
 }

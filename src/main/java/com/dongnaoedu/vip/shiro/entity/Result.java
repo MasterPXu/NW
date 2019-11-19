@@ -11,6 +11,14 @@ public class Result implements Serializable {
 	private String taskResult;
 	private String phoneNumber;
 	private long replyTime;
+	private long sendTime;
+	
+	public long getSendTime() {
+		return sendTime;
+	}
+	public void setSendTime(long sendTime) {
+		this.sendTime = sendTime;
+	}
 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//定义格式，不显示毫秒
 	public String time;
 	

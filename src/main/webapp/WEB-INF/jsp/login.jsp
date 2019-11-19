@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>登录</title>
-    <style>
+    <style >
     .error{color:red;}
     html{   
     width: 100%;   
@@ -12,12 +12,13 @@
     font-style: sans-serif;   
 	}   
 	body{   
-	    width: 100%;   
+ 	    width: 100%;   
 	    height: 100%;   
 	    font-family: 'Open Sans',sans-serif;   
 	    margin: 0;   
-	    background-color: #4A374A;   
-	}   
+/* 	    background-color: #979797;  
+	    background-image: url("${pageContext.request.contextPath}/static/timg.jpg");  */
+	}   /**/
 	#login{   
 	    position: absolute;   
 	    top: 50%;   
@@ -43,11 +44,11 @@
 	}   
 	
 	.aa{   
-	    width: 278px;   
-	    height: 18px;   
+	    width: 308px;   
+	    height: 25px;   
 	    margin-bottom: 10px;   
-	    outline: none;   
-	    padding: 10px;   
+	/*    outline: none;  
+ 	    padding: 10px;   
 	    font-size: 13px;   
 	    color: #fff;   
 	    text-shadow:1px 1px 1px;   
@@ -55,11 +56,11 @@
 	    border-left: 1px solid #312E3D;   
 	    border-right: 1px solid #312E3D;   
 	    border-bottom: 1px solid #56536A;   
-	    border-radius: 4px;   
-	    background-color: #2D2D3F;   
+	    border-radius: 4px;   */ 
+	    background-color: #FFFFFF;    
 	}   
 	.but{   
-	    width: 300px;   
+	    width: 308px;   
 	    min-height: 20px;   
 	    display: block;   
 	    background-color: #4a77d4;   
@@ -73,7 +74,11 @@
 	}  
     </style>
 </head>
-<body>
+<body background="${pageContext.request.contextPath}/static/images/a.png" style=" background-repeat:no-repeat ;
+
+background-size:100% 100%; 
+
+background-attachment: fixed;" >
 
 <div class="error">${error}</div>
 <div id="login">
@@ -81,10 +86,13 @@
 	<form action="" method="post">
 		  <input type="text" name="username" value="<shiro:principal/>"  placeholder="用户名" class="aa"></input><br/>
 		  <input type="password" name="password" placeholder="密码" class="aa"></input><br/>
+		  <input type='hidden' value='${CSRFToken}' id='csrftoken'>
 		  <a class="bbb">自动登录:</a><input type="checkbox" name="rememberMe" value="true"><br/>
-	    <input class="but" type="submit" value="登录">
+		  <input class="but" type="submit" value="登录">
 	</form>
 </div>
-
+<!-- 	      <input class="but" type="submit" value="登录" οnclick="submitForm()" type="button">	  -->
+<%-- 	    <img src="${pageContext.request.contextPath}/static/images/logo.png">
+	    <img src="${pageContext.request.contextPath}/static/images/b.png">	  --%>   
 </body>
 </html>
